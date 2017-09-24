@@ -1,57 +1,39 @@
-# Basic Sample Business Network
+# Problem Statement
 
-> This is the "Hello World" of Hyperledger Composer samples, which demonstrates the core functionality of Hyperledger Composer by changing the value of an asset.
+Over $1 Trillion each year are wasted in healthcare mainly due to suboptimal clinical care, complexity of record keeping, unaccountability, and over pricing for services in today’s models.
+
+To be able to reduce these losses, a push has been made from Fee for Service to Fee for Value. But to perform Fee for Value,  improved record keeping needs to take place, as well as the coordination of patient information (given proper permissions) among providers participating in what is called an “Integrated Delivery Network”.  But the catch is that this must be done in a manner that REDUCES the total amount of paperwork to be done, and that also provides accountability for participants. And on top of all this, how do you even convince any single member of an IDN to upgrade their software, albeit every single participant? So an ideal solution would enable extensibility of a network over time, but still provide standalone value.
+
+That’s where CarePay comes in with it’s 2 key functions. The first function is to automate the tracking, reporting and auditing of records by using Proof of Publication on both the Bitcoin chain using the Tierion API, and in a private hyperledger fabric ledger. This is a critical function, as even if the customer is running as a single node, they can still benefit from the integrity of Bitcoin’s chain. There are programs that will pay providers for a flat fee per patient for simply tracking metrics in a more proveable manner, which can be done in the single node version of CarePay, immediately contributing to the bottom line.
+The second function enables shared proactive understanding of benefits, outcomes and payments by publishing not only hashes, but data pointers onto a hyperledger fabric network so that other participants can view the data themselves. Without blockchain, performing this care coordination activity without generating excessive waste and still keeping all members accountable for each other might be an impossible task. This problem practically begs for blockchain.
+
+# Demo
+
+## Care Pay Alpha Network
+
+> This is and Integrated Delivery Network built on the Hyperledger Fabric.
 
 This business network defines:
 
 **Participant**
-`SampleParticipant`
+`Payor`
+
+**Participant**
+'Provider'
 
 **Asset**
-`SampleAsset`
+`Patient`
 
-**Transaction**
-`SampleTransaction`
+**Asset**
+'Hash'
 
-**Event**
-`SampleEvent`
+To demo the business network, please visit the [Hyperledger Cloud based Composer playground](https://composer-playground.mybluemix.net/editor).
 
-SampleAssets are owned by a SampleParticipant, and the value property on a SampleAsset can be modified by submitting a SampleTransaction. The SampleTransaction emits a SampleEvent that notifies applications of the old and new values for each modified SampleAsset.
-
-To test this Business Network Definition in the **Test** tab:
-
-Create a `SampleParticipant` participant:
+Clone the repo locally and enter main directory.
 
 ```
-{
-  "$class": "org.acme.sample.SampleParticipant",
-  "participantId": "Toby",
-  "firstName": "Tobias",
-  "lastName": "Hunter"
-}
+mkdir dist
+composer archive create -a dist/care-pay.bna --sourceType dir --sourceName .
 ```
 
-Create a `SampleAsset` asset:
-
-```
-{
-  "$class": "org.acme.sample.SampleAsset",
-  "assetId": "assetId:1",
-  "owner": "resource:org.acme.sample.SampleParticipant#Toby",
-  "value": "original value"
-}
-```
-
-Submit a `SampleTransaction` transaction:
-
-```
-{
-  "$class": "org.acme.sample.SampleTransaction",
-  "asset": "resource:org.acme.sample.SampleAsset#assetId:1",
-  "newValue": "new value"
-}
-```
-
-After submitting this transaction, you should now see the transaction in the Transaction Registry and that a `SampleEvent` has been emitted. As a result, the value of the `assetId:1` should now be `new value` in the Asset Registry.
-
-Congratulations!
+This will create the care-pay.bna file within the dist directory.  Now in the Composer playground on the 'Define' tab, click 'Import/Replace', and upload this care-pay.bna file.  You can now create your own business network following the [Composer tutorial](https://hyperledger.github.io/composer/tutorials/playground-guide.html).
